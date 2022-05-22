@@ -1,13 +1,19 @@
-import { FiSearch } from 'react-icons/fi';
+import React, {useState} from 'react';
 import './styles.css';
 import Inputcpf from './inputcpf';
+
+
+
 function App() {
+  const [cpf, setCpf] = useState('');
+  console.log(cpf)
   return (
+    
     <div className="container">
       <div className='heading'>
         <h1 className="title">Estudos</h1>
       </div>
-
+ 
       <div className="dadosInput">
         <label for="nomeC">Nome completo</label>
         <input type="text"
@@ -15,8 +21,10 @@ function App() {
           id='nomeC' />
       </div>
       <div className="dadosInput">
+        
+
         <label for="cpfC">CPF</label>
-        <Inputcpf />
+        <Inputcpf value={cpf} onChange={(event) => setCpf(event.target.value)}/>
       </div>
       <div className="dadosInput">
         <label for="datanasciment0C">Data de nascimento</label>
@@ -25,7 +33,7 @@ function App() {
           id='datanasciment0C' />
       </div>
       <button className="buttonInserir">
-        <FiSearch size={25} color="#000" />
+        <button>Inserir</button>
       </button>
     </div>
   );
