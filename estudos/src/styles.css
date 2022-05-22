@@ -1,10 +1,11 @@
-.container{
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
+
 }
+
 .heading {
     width: 100%;
     text-align: center;
@@ -29,7 +30,8 @@
     border-radius: 10px;
     box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.507);
 }
-.dadosInput>input{
+
+.dadosInput>input {
     background-color: transparent;
     border: 0px;
     font-size: 16px;
@@ -38,12 +40,14 @@
     margin-right: 10px;
     margin-left: 10px;
 }
-.dadosInput>label{
+
+.dadosInput>label {
     font-size: 1.2em;
     padding: 10px;
     text-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
 }
-.buttonInserir{
+
+.buttonInserir {
     background-color: transparent;
     border: 0;
     display: flex;
@@ -52,9 +56,44 @@
     cursor: pointer;
     transition: transform 0.5s;
 }
-.buttonInserir:hover{
+
+.buttonInserir:hover,
+.menu-button:hover {
     transform: scale(1.2);
 }
+
+.menu.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu {
+    opacity: 0;
+    padding: 10px;
+    background-color: aqua;
+    width: 280px;
+    text-align: center;
+    align-items: center;
+    margin: 10px 0px;
+    box-shadow: 1px 3px 10px black;
+    border-radius: 5px;
+}
+
+.menu-button {
+    margin-left: auto;
+    cursor: pointer;
+    transition: transform 0.5s;
+    padding: 5px;
+    background-color: aqua;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 1px 3px 10px black;
+    width: 300px;
+    font-weight: bold;
+}
+
+.menu-container {}
+
 @keyframes flipTitle {
     from {
         transform: rotateX(90deg);
