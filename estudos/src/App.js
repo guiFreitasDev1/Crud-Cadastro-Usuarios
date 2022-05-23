@@ -4,14 +4,35 @@ import './styles.css';
 import Inputcpf from './inputcpf';
 import { useOutsideClick } from './useOutsideClick';
 
-
+const initialValue = {
+  nome: '',
+  cpf: '',
+  dataN: ''
+}
 
 function App() {
   const [cpf, setCpf] = useState('');
   const dropDownRef = useRef(null);
   const [isActive, setIsActive] = useState(false)
   const onClick = () => setIsActive(!isActive)
-  console.log(isActive)
+
+  const [values, setValues] = useState(initialValue)
+
+  function onChage2(ev) {
+    const { name, value } = ev.target;
+    console.log({ name, value })
+
+    setValues({ ...values, [name]: value })
+  }
+  function onSubmit(ev) {
+    ev.preventDefault();
+  }
+
+  function handleChange(event) {
+    setCpf(event.target.value)
+    onChage2(event)
+
+  }
   return (
 
     <div className="container">
@@ -19,41 +40,51 @@ function App() {
         <h1 className="title">Estudos</h1>
       </div>
 
-      <div className="dadosInput">
-        <label for="nomeC">Nome completo</label>
-        <input type="text"
-          placeholder="Digite seu nome completo..."
-          id='nomeC' />
-      </div>
-      <div className="dadosInput">
+      <form onSubmit={onSubmit}>
+        <div className="dadosInput">
+          <label for="nomeC">Nome completo</label>
+          <input type="text"
+            placeholder="Digite seu nome completo..."
+            id='nomeC' name='nome' onChange={onChage2} />
+        </div>
+        <div className="dadosInput">
 
 
-        <label for="cpfC">CPF</label>
-        <Inputcpf value={cpf} onChange={(event) => setCpf(event.target.value)} />
-      </div>
-      <div className="dadosInput">
-        <label for="datanasciment0C">Data de nascimento</label>
-        <input type="date"
-          placeholder="Digite sua data de nascimento..."
-          id='datanasciment0C' />
-      </div>
-      <div className='menu-container'>
-        <button onClick={onClick} className="menu-button">
-          <span>Ativo/Inativo</span>
+          <label for="cpfC">CPF</label>
+          <Inputcpf value={cpf} name='cpf' onChange={handleChange} />
+        </div>
+
+
+        <div className="dadosInput">
+          <label for="datanasciment0C">Data de nascimento</label>
+          <input type="date"
+            placeholder="Digite sua data de nascimento..."
+            id='datanasciment0C' name='dataN' onChange={onChage2} />
+        </div>
+
+
+        <div className='menu-container'>
+          <button onClick={onClick} className="menu-button">
+            <span>Ativo/Inativo</span>
+          </button>
+
+
+          <nav ref={dropDownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
+            <label for="Ativo"> Ativo </label>
+            <input type={'radio'} id="Ativo" name='inputAtivoInativo'></input><br />
+            <label for="Inativo"> Inativo </label>
+            <input type={'radio'} id="Inativo" name='inputAtivoInativo'></input>
+          </nav>
+        </div>
+        <button className="buttonInserir">
+          <button className='button'>Cancelar</button>
         </button>
-
-
-        <nav ref={dropDownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
-          <label for="Ativo"> Ativo </label>
-          <input type={'checkbox'} id="Ativo"></input><br />
-          <label for="Inativo"> Inativo </label>
-          <input type={'checkbox'} id="Inativo"></input>
-        </nav>
-      </div>
-      <button className="buttonInserir">
-        <button>Inserir</button>
-      </button>
+        <button className="buttonInserir">
+          <button className='button'>Inserir</button>
+        </button>
+      </form>
     </div>
+
   );
 }
 

@@ -72,8 +72,6 @@
     padding: 10px;
     background-color: aqua;
     width: 280px;
-    text-align: center;
-    align-items: center;
     margin: 10px 0px;
     box-shadow: 1px 3px 10px black;
     border-radius: 5px;
@@ -91,8 +89,19 @@
     width: 300px;
     font-weight: bold;
 }
+ 
+.button{
+    padding: 5px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: aqua;
+    margin: 5px;
+    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.507);
 
-.menu-container {}
+
+}
 
 @keyframes flipTitle {
     from {
