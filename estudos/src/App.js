@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRef } from 'react';
 import './styles.css';
 import Inputcpf from './inputcpf';
-import { useOutsideClick } from './useOutsideClick';
+
 
 const initialValue = {
   nome: '',
@@ -26,6 +26,7 @@ function App() {
   }
   function onSubmit(ev) {
     ev.preventDefault();
+
   }
 
   function handleChange(event) {
@@ -76,13 +77,21 @@ function App() {
             <input type={'radio'} id="Inativo" name='inputAtivoInativo'></input>
           </nav>
         </div>
-        <button className="buttonInserir">
-          <button className='button'>Cancelar</button>
-        </button>
-        <button className="buttonInserir">
-          <button className='button'>Inserir</button>
-        </button>
+
+        <button className='buttonInserir'>Inserir</button>
+        <button className='buttonInserir'>Cancelar</button>
+
+
+
       </form>
+      <div className='divPesquisa'>
+        <label for='pesquisa'>Pesquisar: </label>
+        <input type={'text'} id='pesquisa' placeholder='Pesquise sua identidade...'></input>
+
+        <button className='buttonPesquisaDeletarEnviar'>Deletar</button>
+        <button className='buttonPesquisaDeletarEnviar'>Editar</button>
+
+      </div>
     </div>
 
   );
