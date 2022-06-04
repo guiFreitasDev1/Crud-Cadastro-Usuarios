@@ -51,7 +51,7 @@ function App() {
         <div className="dadosInput">
 
 
-          <label for="cpfC">CPFf</label>
+          <label for="cpfC">CPF</label>
           <Inputcpf value={cpf} name='cpf' onChange={handleChange} />
         </div>
 
