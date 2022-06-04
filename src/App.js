@@ -76,10 +76,12 @@ function App() {
             <label for="Inativo"> Inativo </label>
             <input type={'radio'} id="Inativo" name='inputAtivoInativo'></input>
           </nav>
+          
+          <button className='buttonInserir'>Inserir</button>
+        <button className='buttonInserir'>Cancelar</button>
         </div>
 
-        <button className='buttonInserir'>Inserir</button>
-        <button className='buttonInserir'>Cancelar</button>
+        
 
 
 
@@ -87,6 +89,7 @@ function App() {
       <div className='divPesquisa'>
         <label for='pesquisa'>Pesquisar: </label>
         <input type={'text'} id='pesquisa' placeholder='Pesquise sua identidade...'></input>
+        <br></br>
 
         <button className='buttonPesquisaDeletarEnviar'>Deletar</button>
         <button className='buttonPesquisaDeletarEnviar'>Editar</button>

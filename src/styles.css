@@ -78,10 +78,10 @@
     margin: 10px 0px;
     box-shadow: 1px 3px 10px black;
     border-radius: 5px;
+    margin: auto;
 }
 
 .menu-button {
-    margin-left: auto;
     cursor: pointer;
     transition: transform 0.5s;
     padding: 5px;
@@ -91,6 +91,11 @@
     box-shadow: 1px 3px 10px black;
     width: 300px;
     font-weight: bold;
+}
+.menu-container{
+    display: block;
+    margin: auto;
+    text-align: center;
 }
  
 .buttonPesquisaDeletarEnviar{
@@ -122,6 +127,7 @@
     margin: auto;
     align-items: center;
     justify-content: center;
+    padding: 50px;
 }
 @keyframes flipTitle {
     from {
