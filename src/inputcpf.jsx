@@ -7,7 +7,7 @@ const Inputcpf = ({ value, onChange }) => {
    <InputMask 
    mask="999.999.999-99" 
    value={value} 
-   onChange={onChange} />)
+   onChange={onChange} 
+   />)
 }
 
-export default Inputcpf;

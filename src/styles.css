@@ -47,7 +47,7 @@
     text-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
 }
 
-.buttonInserir {
+.buttonInserir,.buttonCancelar {
     cursor: pointer;
     padding: 5px;
     text-align: center;
