@@ -5,66 +5,17 @@
     flex-direction: column;
 
 }
-
-.heading {
-    width: 100%;
-    text-align: center;
-    background: linear-gradient(rgb(80, 80, 253), rgb(0, 169, 221));
-    padding: 10px;
-    margin-bottom: 30px;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.438);
-
+.buttonEnviar{
+    margin-right: 10px;
 }
 
-.title {
-    text-shadow: 1px 1px 1px black;
-    color: white;
-    animation: flipTitle 2s;
-}
 
 .dadosInput {
-    background-color: rgb(0, 169, 221);
     padding: 10px;
-    margin: 30px 0px;
+    margin: 15px 0px;
     display: flex;
-    border-radius: 10px;
-    box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.507);
+    
 }
-
-.dadosInput>input {
-    background-color: transparent;
-    border: 0px;
-    font-size: 16px;
-    color: white;
-    outline: none;
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-.dadosInput>label {
-    font-size: 1.2em;
-    padding: 10px;
-    text-shadow: 1px 3px 8px rgba(0, 0, 0, 0.5);
-}
-
-.buttonInserir,.buttonCancelar {
-    cursor: pointer;
-    padding: 5px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    background-color: aqua;
-    margin: 5px;
-    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.507);
-    border: 1px solid black;
-    transition: transform 0.5s;
-}
-
-.buttonInserir:hover,
-.menu-button:hover, .buttonPesquisaDeletarEnviar:hover{
-    transform: scale(1.2);
-}
-
 .menu.active {
     opacity: 1;
     visibility: visible;
