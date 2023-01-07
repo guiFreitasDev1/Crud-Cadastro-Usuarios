@@ -4,11 +4,16 @@ import './styles.css';
 import Button from '@mui/material/Button';
 import { DataGrid } from '@mui/x-data-grid';
 import BasicModal from './Usuarios/Create';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+
 
 function App() {
   // Modal Mui 
   const [openModal, setOpenModal] = useState(false)
-  console.log(openModal)
+
   // Function modal Mui
   const handleModal = () => {
     setOpenModal(!openModal)
@@ -49,10 +54,22 @@ function App() {
     { id: 9, ultimoNome: 'Roxie', primeiroNome: 'Harvey', Idade: 65 },
     { id: 10, ultimoNome: 'Roxie', primeiroNome: 'Harvey', Idade: 65 },
   ];
+
   return (
 
-
     <div className='container'>
+      <div className='header'>
+        <Box sx={{ flexGrow: 1 }} >
+          <AppBar position='absolute'>
+            <Toolbar >
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Button onClick={handleModal} style={{ color: 'white' }}>Cadastrar Usuarios</Button>
+                <BasicModal open={openModal} setOpen={setOpenModal} />
+              </Typography>
+              <Button color="inherit">Excluir</Button>
+            </Toolbar>
+          </AppBar>
+        </Box></div>
       <div style={{ height: 650, width: '100%' }}>
         <DataGrid
           rows={rows}
@@ -60,13 +77,11 @@ function App() {
           pageSize={10}
           rowsPerPageOptions={[5]}
           checkboxSelection
-        />
+        > </DataGrid>
       </div>
-      
-      <Button onClick={handleModal}>Cadastrar Usuarios</Button>
-      <BasicModal open={openModal} setOpen={setOpenModal} />
+      <div>
 
-
+      </div>
     </div>
 
   );

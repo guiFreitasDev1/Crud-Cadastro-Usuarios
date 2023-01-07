@@ -21,128 +21,130 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal({openMod = false, setOpen}) {
+export default function BasicModal({ openMod = false , setOpen }) {
+
+  console.log(openMod)
+  // limpar os inputs, até o momento nao está limpando o do CPF
+  const  {register, /*handleSubmit,*/ reset, resetForm}  = useForm();
+  
+  // pegando valor do input 
+  const [value, setValue] = useState();
+
   //const handleOpen = () => openMod(true);
   const handleClose = () => setOpen(false);
+  
+  // Function pegando valor do input 
+  const handleChangeValue = (value) => {
+    setValue((prevValue) => ({
+      ...prevValue,
+      [value.target.name]: value.target.value,
+    }))
+  };
 
-  // limpar os inputs, até o momento nao está limpando o do CPF
-  const { register, handleSubmit, reset, resetForm } = useForm();
-   // pegando valor do input 
-   const [value, setValue] = useState();
-  console.log(openMod)
-
- // Function pegando valor do input 
- const handleChangeValue = (value) => {
-  setValue((prevValue) => ({
-    ...prevValue,
-    [value.target.name]: value.target.value,
-  }))
-};
- // Function resetar formulario
- const resetAsyncForm = useCallback(async () => {
-  const result = await fetch('./api/formValues.json');
-  reset(result);
-}, [reset]);
+  // Function resetar formulario
+  const resetAsyncForm = useCallback(async () => {
+    const result = await fetch('./api/formValues.json');
+    reset(result);
+  }, [reset]);
 
 
-useEffect(() => {
-  resetAsyncForm()
-}, [resetForm, resetAsyncForm])
+  useEffect(() => {
+    resetAsyncForm()
+  }, [resetForm, resetAsyncForm])
 
+  // click button inserir
+  const handleClickButton = () => {
+    console.log(value)
+  };
 
- // click button inserir
- const handleClickButton = () => {
-  console.log(value)
-};
-// GUILHERME DO FUTURO TENTAR ARRUMAR O MODAL QUE SEM O ! NAO APARECE PARA TERMINAR O CRUD
+  // GUILHERME DO FUTURO TENTAR ARRUMAR O MODAL QUE SEM O ! NAO APARECE PARA TERMINAR O CRUD
   return (
     <div>
-        
-      <Modal
-        open={openMod}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Cadastro
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <div className='centro'>
-        <form onSubmit={handleSubmit()} className='formularioPrinc'>
-          <div>
-            <div className="dadosInput">
-              <TextField
-                id="nomeC"
-                label="Primeiro Nome"
-                variant="standard"
-                {...register('nome')}
-                name='name'
-                onChange={handleChangeValue} />
-            </div>
+      
+        <Modal
+          open={openMod}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Cadastro
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+
+              <div className='centro'>
+                {/* teste para ver se o erro persiste <form onSubmit={handleSubmit()} className='formularioPrinc'>*/}
+                  <div>
+
+                    <div className="dadosInput">
+                      <TextField
+                        id="nomeC"
+                        label="Primeiro Nome"
+                        variant="standard"
+                        {...register('nome')}
+                        name='name'
+                        onChange={handleChangeValue} />
+                        
+                    </div>
+                
+
+                    <div className="dadosInput">
+                      <TextField id="UltimoNome"
+                        label="Ultimo Nome"
+                        variant="standard"
+                        name='UltimoNome'
+                        {...register('UltimoNome')}
+                        onChange={handleChangeValue} />
+
+                    </div>
 
 
-            <div className="dadosInput">
-              <TextField id="UltimoNome"
-                label="Ultimo Nome"
-                variant="standard"
-                name='UltimoNome'
-                {...register('UltimoNome')}
-                onChange={handleChangeValue} />
+                    <div className="dadosInput">
+                      <TextField id="Idade"
+                        label="Idade"
+                        variant="standard"
+                        name='Idade'
+                        {...register('Idade')}
+                        onChange={handleChangeValue} />
 
-            </div>
+                    </div>
 
+                  
+                    <div className='menu-container'>
 
-            <div className="dadosInput">
-              <TextField id="Idade"
-                label="Idade"
-                variant="standard"
-                name='Idade'
-                {...register('Idade')}
-                onChange={handleChangeValue} />
-
-            </div>
-
-            <div className="dadosInput">
-              <TextField id="NomeCompleto"
-                label="Nome Completo"
-                variant="standard"
-                name='NomeCompleto'
-                {...register('NomeCompleto')}
-                onChange={handleChangeValue} />
-
-            </div>
-            <div className='menu-container'>
-
-              <Stack spacing={3} direction="row">
+                      <Stack spacing={3} direction="row">
 
 
-                <Button
-                  variant="contained"
-                  className='buttonEnviar'
-                  onClick={() => handleClickButton()}
-                >Enviar</Button>
+                        <Button
+                          variant="contained"
+                          className='buttonEnviar'
+                          onClick={() => handleClickButton()}
+                        >Enviar</Button>
 
-                <Button variant="contained"
-                  className='button'
-                  onClick={() => {
-                    reset(formValues => ({
-                      ...formValues, Idade: '', nome: '', UltimoNome: '', NomeCompleto: ''
-                    }))
-                  }}>Limpar</Button>
-              </Stack>
+                        <Button variant="contained"
+                          className='button'
+                          onClick={() => {
+                            reset(formValues => ({
+                              ...formValues, Idade: '', nome: '', UltimoNome: '', NomeCompleto: ''
+                            }))
+                          }}
+                          >Limpar</Button>
 
-            </div>
+                      </Stack>
 
-          </div>
+                    </div>
 
-        </form>
+                  </div>
 
-      </div>
-          </Typography>
-        </Box>
-      </Modal>
+                {/* teste para ver se o erro persiste </form>*/}
+
+              </div>
+            </Typography>
+          </Box>
+        </Modal>
+      
     </div>
   );
 }

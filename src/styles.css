@@ -7,8 +7,11 @@
 }
 .buttonEnviar{
     margin-right: 10px;
+    
 }
-
+.header{
+    margin-bottom: 64px;
+}
 
 .dadosInput {
     padding: 10px;
@@ -16,70 +19,8 @@
     display: flex;
     
 }
-.menu.active {
-    opacity: 1;
-    visibility: visible;
-}
 
-.menu {
-    opacity: 0;
-    padding: 10px;
-    background-color: aqua;
-    width: 280px;
-    margin: 10px 0px;
-    box-shadow: 1px 3px 10px black;
-    border-radius: 5px;
-    margin: auto;
-}
 
-.menu-button {
-    cursor: pointer;
-    transition: transform 0.5s;
-    padding: 5px;
-    background-color: aqua;
-    border: 0;
-    border-radius: 10px;
-    box-shadow: 1px 3px 10px black;
-    width: 300px;
-    font-weight: bold;
-}
-.menu-container{
-    display: block;
-    margin: auto;
-    text-align: center;
-}
- 
-.buttonPesquisaDeletarEnviar{
-    cursor: pointer;
-    padding: 5px;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    background-color: aqua;
-    margin: 10px;
-    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.507);
-    border: 1px solid black;
-    transition: transform 0.5s;
-}
-.divPesquisa > label{
-    font-size: 1.2em;
-    padding: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-}
-.divPesquisa > input{
-    background-color: aqua;
-    padding: 5px;
-    border: 1px solid black;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-}
-.divPesquisa{
-    text-align: center;
-    margin: auto;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
-}
 @keyframes flipTitle {
     from {
         transform: rotateX(90deg);
