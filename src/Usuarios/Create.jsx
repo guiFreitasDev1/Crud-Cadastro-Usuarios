@@ -21,7 +21,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal({ openMod = false , setOpen }) {
+export default function BasicModal({ openMod , setOpen }) {
 
   console.log(openMod)
   // limpar os inputs, até o momento nao está limpando o do CPF
