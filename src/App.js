@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField';
 import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 
+// style
 const style = {
   position: 'absolute',
   top: '50%',
@@ -28,7 +29,7 @@ function App() {
 
   
   // limpar os inputs, até o momento nao está limpando o do CPF
-  const  {register, /*handleSubmit,*/ reset, resetForm}  = useForm();
+  const  {register, reset, resetForm}  = useForm();
   
   // pegando valor do input 
   const [value, setValue] = useState();
@@ -64,16 +65,6 @@ function App() {
   };
 
   // GUILHERME DO FUTURO TENTAR ARRUMAR O MODAL QUE SEM O ! NAO APARECE PARA TERMINAR O CRUD
-  
-    
-
-
-  
-
-  // Function modal Mui
-  // const handleModal = () => {
-  //   setOpen(!openMod)
-  // }
 
   //Rows e Columns datagrid 
   const columns = [
@@ -115,8 +106,27 @@ function App() {
     
 
     <div className='container'>
-      <div>
-      
+      <div className='header'>
+        <Box sx={{ flexGrow: 1 }} >
+          <AppBar position='absolute'>
+            <Toolbar >
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Button onClick={handleOpen} style={{ color: 'white' }}>Cadastrar Usuarios</Button>
+              </Typography>
+              <Button color="inherit">Excluir</Button>
+            </Toolbar>
+          </AppBar>
+        </Box></div>
+      <div style={{ height: 650, width: '100%' }} className='dataGrid'>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+        > </DataGrid>
+      </div>
+      <div className='modal'>
       <Modal
         open={openMod}
         onClose={handleClose}
@@ -200,30 +210,6 @@ function App() {
           </Typography>
         </Box>
       </Modal>
-    
-  </div>
-      <div className='header'>
-        <Box sx={{ flexGrow: 1 }} >
-          <AppBar position='absolute'>
-            <Toolbar >
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                <Button onClick={handleOpen} style={{ color: 'white' }}>Cadastrar Usuarios</Button>
-              </Typography>
-              <Button color="inherit">Excluir</Button>
-            </Toolbar>
-          </AppBar>
-        </Box></div>
-      <div style={{ height: 650, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-        > </DataGrid>
-      </div>
-      <div>
-
       </div>
     </div>
 
