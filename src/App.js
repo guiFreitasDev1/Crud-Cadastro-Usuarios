@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 //import { set } from "date-fns";
 //import api from "../backend/services/api";
 
+
+
 // style
 const style = {
   position: "absolute",
@@ -43,8 +45,6 @@ function App() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleCloseUp = () => setOpenUp(false);
-
   // Function pegando valor do input
   const handleChangeValue = (value) => {
     setValue((prevValue) => ({
@@ -70,6 +70,9 @@ function App() {
 
   //Rows e Columns datagrid / GET
   const [users, setUsers] = useState([]);
+  // editar
+  const [usersUp, setUsersUp] = useState([])
+  
 
   const getUsers = async () => {
     try {
@@ -99,11 +102,33 @@ function App() {
     }
   };
 
+
+
   const openUser = async (abacaxi) => {
     setOpenUp(true);
     console.log('ABACAXI', abacaxi);
+    reset(((formValues) => ({
+      ...formValues,
+      idade: abacaxi.idade,
+      primeiroNome: abacaxi.primeiroNome,
+      ultimoNome: abacaxi.ultimoNome,
+    })))
   };
+  
+  const handleCloseUp = () => {
+    setOpenUp(false)
+    setUsersUp('')
 
+    reset(((formValues) => ({
+      ...formValues,
+      idade: null,
+      primeiroNome: null,
+      ultimoNome: null,
+    })))
+  };
+  console.log('alo', usersUp)
+
+  
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
     {
@@ -135,7 +160,7 @@ function App() {
     {
       field: "edit",
       renderCell: (params) => (
-        <Button onClick={() => openUser(params.row)}>Edit</Button>
+        <Button onClick={() => {  openUser(params.row)}}>Edit</Button>
       ),
     },
   ];
@@ -209,34 +234,33 @@ function App() {
 
                 <div className="dadosInput">
                   <TextField
-                    id="nomeC"
+                    id="nomeCUp"
                     label="Primeiro Nome"
                     variant="standard"
-                    {...register("nome")}
-                    name="name"
-                    onChange={handleChangeValue}
-                    
+                    {...register("primeiroNome")}
+                    name="nameCUp"
+                    onChange={handleChangeValue}                    
                   />
                 </div>
 
                 <div className="dadosInput">
                   <TextField
-                    id="UltimoNome"
+                    id="UltimoNomeUp"
                     label="Ultimo Nome"
                     variant="standard"
-                    name="UltimoNome"
-                    {...register("UltimoNome")}
-                    onChange={handleChangeValue}
+                    name="UltimoNomeUp"
+                    {...register("ultimoNome")}
+                    onChange={handleChangeValue}                    
                   />
                 </div>
 
                 <div className="dadosInput">
                   <TextField
-                    id="Idade"
+                    id="IdadeUp"
                     label="Idade"
                     variant="standard"
-                    name="Idade"
-                    {...register("Idade")}
+                    name="IdadeUp"
+                    {...register("idade")}
                     onChange={handleChangeValue}
                   />
                 </div>
@@ -246,7 +270,7 @@ function App() {
                     <Button
                       variant="contained"
                       className="buttonEnviar"
-                      onClick={() => handleClickButton()}
+                      onClick={updateUser}
                     >
                       Enviar
                     </Button>
@@ -255,13 +279,13 @@ function App() {
                       variant="contained"
                       className="button"
                       onClick={() => {
-                        reset((formValues) => ({
+                        reset(((formValues) => ({
                           ...formValues,
                           Idade: "",
                           nome: "",
                           UltimoNome: "",
                           NomeCompleto: "",
-                        }));
+                        })));
                       }}
                     >
                       Limpar
