@@ -7,7 +7,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -33,7 +33,7 @@ const style = {
 };
 function App() {
   // limpar os inputs, até o momento nao está limpando o do CPF
-  const { register, reset, resetForm } = useForm();
+  const { register, getValues, reset } = useForm();
 
   // pegando valor do input
   const [value, setValue] = useState();
@@ -53,16 +53,7 @@ function App() {
     }));
   };
 
-  // Function resetar formulario
-  const resetAsyncForm = useCallback(async () => {
-    const result = await fetch("./api/formValues.json");
-    reset(result);
-  }, [reset]);
-
-  useEffect(() => {
-    resetAsyncForm();
-  }, [resetForm, resetAsyncForm]);
-
+  
   // click button inserir
   const handleClickButton = () => {
     console.log(value);
@@ -70,14 +61,17 @@ function App() {
 
   //Rows e Columns datagrid / GET
   const [users, setUsers] = useState([]);
+
+  console.log('ERRO',users)
+
+
   // editar
   const [usersUp, setUsersUp] = useState([])
-  
+  console.log('ERRO 2', usersUp)
 
   const getUsers = async () => {
     try {
       const res = await axios.get("http://localhost:8800");
-      console.log(res.data);
       setUsers(res.data);
     } catch (error) {
       toast.error(error);
@@ -86,29 +80,30 @@ function App() {
 
   useEffect(() => {
     getUsers();
-    //console.log('USERS', users)
-  }, []);
+  }, [setUsers]);
 
-  const updateUser = async (id) => {
+  const updateUser = async () => {
     try {
-      console.log('id', id);
+      console.log('ALOOO', getValues())
       const res = await axios.put("http://localhost:8800/users", {
-        data: { id },
+        data: getValues()
       });
-      console.log(res.data);
-      setUsers(res.data);
+
+      setUsersUp(res.data);
     } catch (error) {
       toast.error(error);
     }
   };
+  
 
 
 
   const openUser = async (abacaxi) => {
     setOpenUp(true);
-    console.log('ABACAXI', abacaxi);
+
     reset(((formValues) => ({
       ...formValues,
+      id:abacaxi.id,
       idade: abacaxi.idade,
       primeiroNome: abacaxi.primeiroNome,
       ultimoNome: abacaxi.ultimoNome,
@@ -117,7 +112,7 @@ function App() {
   
   const handleCloseUp = () => {
     setOpenUp(false)
-    setUsersUp('')
+    
 
     reset(((formValues) => ({
       ...formValues,
@@ -126,7 +121,7 @@ function App() {
       ultimoNome: null,
     })))
   };
-  console.log('alo', usersUp)
+
 
   
   const columns = [
@@ -165,25 +160,8 @@ function App() {
     },
   ];
   // ANOTAÇÃO, CRIAR FUNÇÃO OPEN USER, ABRIR UM MODAL IGUAL DE CADASTRAR, PREENCHENDO OS VALORES Q ELA RECEBEU DE PARAMETRO
-  // const rows = [
-  // { id: 1, ultimoNome: "Snow", primeiroNome: "Jon", Idade: 35 },
-  //   // { id: 2, ultimoNome: 'Lannister', primeiroNome: 'Cersei', Idade: 42 },
-  //   // { id: 3, ultimoNome: 'Lannister', primeiroNome: 'Jaime', Idade: 45 },
-  //   // { id: 4, ultimoNome: 'Stark', primeiroNome: 'Arya', Idade: 16 },
-  //   // { id: 5, ultimoNome: 'Targaryen', primeiroNome: 'Daenerys', Idade: null },
-  //   // { id: 6, ultimoNome: 'Melisandre', primeiroNome: null, Idade: 150 },
-  //   // { id: 7, ultimoNome: 'Clifford', primeiroNome: 'Ferrara', Idade: 44 },
-  //   // { id: 8, ultimoNome: 'Frances', primeiroNome: 'Rossini', Idade: 36 },
-  //   // { id: 9, ultimoNome: 'Roxie', primeiroNome: 'Harvey', Idade: 65 },
-  //   // { id: 10, ultimoNome: 'Roxie', primeiroNome: 'Harvey', Idade: 65 },
-  //    users.map((item, i) => ({
-  //      id: i.id,
-  //      primeiroNome: item.primeiro_nome,
-  //      ultimoNome: item.ultimo_nome,
-  //      idade: item.idade,
-  //   })),
-  // ];
 
+  
   return (
     <div className="container">
       <div className="header">
@@ -228,9 +206,9 @@ function App() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Update de usuários.
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <div className="centro">
-                {/* teste para ver se o erro persiste <form onSubmit={handleSubmit()} className='formularioPrinc'>*/}
+            <Typography component={'span'} id="modal-modal-description" sx={{ mt: 2 } }>
+              
+                <form className='centro'>
 
                 <div className="dadosInput">
                   <TextField
@@ -264,37 +242,22 @@ function App() {
                     onChange={handleChangeValue}
                   />
                 </div>
-
-                <div className="menu-container">
+             
+                
                   <Stack spacing={3} direction="row">
                     <Button
                       variant="contained"
                       className="buttonEnviar"
                       onClick={updateUser}
+                      
                     >
                       Enviar
                     </Button>
-
-                    <Button
-                      variant="contained"
-                      className="button"
-                      onClick={() => {
-                        reset(((formValues) => ({
-                          ...formValues,
-                          Idade: "",
-                          nome: "",
-                          UltimoNome: "",
-                          NomeCompleto: "",
-                        })));
-                      }}
-                    >
-                      Limpar
-                    </Button>
                   </Stack>
-                </div>
+                
 
-                {/* teste para ver se o erro persiste </form>*/}
-              </div>
+                 </form>
+            
             </Typography>
           </Box>
         </Modal>
@@ -310,16 +273,15 @@ function App() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Cadastro
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <div className="centro">
-                {/* teste para ver se o erro persiste <form onSubmit={handleSubmit()} className='formularioPrinc'>*/}
-
+            <Typography component={'span'} id="modal-modal-description" sx={{ mt: 2 }}>
+              
+                <form className="centro">
                 <div className="dadosInput">
                   <TextField
                     id="nomeC"
                     label="Primeiro Nome"
                     variant="standard"
-                    {...register("nome")}
+                    {...register("primeiroNome")}
                     name="name"
                     onChange={handleChangeValue}
                   />
@@ -330,8 +292,8 @@ function App() {
                     id="UltimoNome"
                     label="Ultimo Nome"
                     variant="standard"
-                    name="UltimoNome"
-                    {...register("UltimoNome")}
+                    name="ultimoNome"
+                    {...register("ultimoNome")}
                     onChange={handleChangeValue}
                   />
                 </div>
@@ -342,7 +304,7 @@ function App() {
                     label="Idade"
                     variant="standard"
                     name="Idade"
-                    {...register("Idade")}
+                    {...register("idade")}
                     onChange={handleChangeValue}
                   />
                 </div>
@@ -356,27 +318,11 @@ function App() {
                     >
                       Enviar
                     </Button>
-
-                    <Button
-                      variant="contained"
-                      className="button"
-                      onClick={() => {
-                        reset((formValues) => ({
-                          ...formValues,
-                          Idade: "",
-                          nome: "",
-                          UltimoNome: "",
-                          NomeCompleto: "",
-                        }));
-                      }}
-                    >
-                      Limpar
-                    </Button>
                   </Stack>
                 </div>
 
-                {/* teste para ver se o erro persiste </form>*/}
-              </div>
+               </form>
+
             </Typography>
           </Box>
         </Modal>

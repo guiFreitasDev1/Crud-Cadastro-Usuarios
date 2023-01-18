@@ -12,12 +12,11 @@ export const getUsers = (_, res) =>{
 
 export const addUser = (req, res) =>{
     const q = "INSERT INTO usuarios(`primeiro_nome`, `ultimo_nome`, `idade`) VALUES(?)";
-
+   
     const values= [
-        req.body.primeiro_nome,
-        req.body.ultimo_nome,
+        req.body.primeiroNome,
+        req.body.ultimoNome,
         req.body.idade,
-
     ];
 
     db.query(q, [values], (err) => {
@@ -29,17 +28,17 @@ export const addUser = (req, res) =>{
 
 export const updateUser = (req, res) => {
     console.log(req.body)
-    return res.status(200).json("Usuário editado.")
+
 
     const q = "UPDATE usuarios SET `primeiro_nome` = ?, `ultimo_nome` = ?, `idade` = ? WHERE `id` = ?"
     const values= [
-        req.body.primeiro_nome,
-        req.body.ultimo_nome,
-        req.body.idade,
-        req.body.id,
+        req.body.data.primeiroNome,
+        req.body.data.ultimoNome,
+        req.body.data.idade,
+      //  req.body.id,
     ];
 
-    db.query(q, [...values, req.params.id], (err) => {
+    db.query(q, [...values, req.body.data.id], (err) => {
         if (err) return res.json(err);
         
         return res.status(200).json("Usuário atualizado com sucesso.")
