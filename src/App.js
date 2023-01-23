@@ -14,10 +14,9 @@ import Stack from "@mui/material/Stack";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 //import { set } from "date-fns";
 //import api from "../backend/services/api";
-
-
 
 // style
 const style = {
@@ -43,7 +42,29 @@ function App() {
   const [openModUp, setOpenUp] = useState(false);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  //fechar modal e reset modal up / cadastro
+  const handleCloseUp = () => {
+    setOpenUp(false);
+
+    reset((formValues) => ({
+      ...formValues,
+      idade: null,
+      primeiroNome: null,
+      ultimoNome: null,
+    }));
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+
+    reset((formValues) => ({
+      ...formValues,
+      idade: null,
+      primeiroNome: null,
+      ultimoNome: null,
+    }));
+  };
 
   // Function pegando valor do input
   const handleChangeValue = (value) => {
@@ -53,21 +74,33 @@ function App() {
     }));
   };
 
-  
   // click button inserir
-  const handleClickButton = () => {
-    console.log(value);
+  const addUser = async () => {
+    console.log('teste' , value)
+    await axios.post("http://localhost:8800", {
+      primeiroNome: value.name,
+      ultimoNome:value.ultimoNome,
+      idade:value.idade,
+
+    })
+
+
+    .then(() => {
+      console.log('deu bom')
+ 
+    }).catch(() => { 
+      console.log('deu ruim')
+    })
+
   };
 
-  //Rows e Columns datagrid / GET
   const [users, setUsers] = useState([]);
 
-  console.log('ERRO',users)
-
+  console.log("USERS", users);
 
   // editar
-  const [usersUp, setUsersUp] = useState([])
-  console.log('ERRO 2', usersUp)
+  const [usersUp, setUsersUp] = useState([]);
+  console.log("USERSPUP", usersUp);
 
   const getUsers = async () => {
     try {
@@ -84,9 +117,9 @@ function App() {
 
   const updateUser = async () => {
     try {
-      console.log('ALOOO', getValues())
+      console.log("ALOOO", getValues());
       const res = await axios.put("http://localhost:8800/users", {
-        data: getValues()
+        data: getValues(),
       });
 
       setUsersUp(res.data);
@@ -94,36 +127,20 @@ function App() {
       toast.error(error);
     }
   };
-  
-
-
 
   const openUser = async (abacaxi) => {
     setOpenUp(true);
 
-    reset(((formValues) => ({
+    reset((formValues) => ({
       ...formValues,
-      id:abacaxi.id,
+      id: abacaxi.id,
       idade: abacaxi.idade,
       primeiroNome: abacaxi.primeiroNome,
       ultimoNome: abacaxi.ultimoNome,
-    })))
-  };
-  
-  const handleCloseUp = () => {
-    setOpenUp(false)
-    
-
-    reset(((formValues) => ({
-      ...formValues,
-      idade: null,
-      primeiroNome: null,
-      ultimoNome: null,
-    })))
+    }));
   };
 
-
-  
+  //Rows e Columns datagrid
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
     {
@@ -155,13 +172,18 @@ function App() {
     {
       field: "edit",
       renderCell: (params) => (
-        <Button onClick={() => {  openUser(params.row)}}>Edit</Button>
+        <Button
+          onClick={() => {
+            openUser(params.row);
+          }}
+        >
+          Edit
+        </Button>
       ),
     },
   ];
   // ANOTAÇÃO, CRIAR FUNÇÃO OPEN USER, ABRIR UM MODAL IGUAL DE CADASTRAR, PREENCHENDO OS VALORES Q ELA RECEBEU DE PARAMETRO
 
-  
   return (
     <div className="container">
       <div className="header">
@@ -206,18 +228,20 @@ function App() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Update de usuários.
             </Typography>
-            <Typography component={'span'} id="modal-modal-description" sx={{ mt: 2 } }>
-              
-                <form className='centro'>
-
+            <Typography
+              component={"span"}
+              id="modal-modal-description"
+              sx={{ mt: 2 }}
+            >
+              <form className="centro">
                 <div className="dadosInput">
                   <TextField
                     id="nomeCUp"
                     label="Primeiro Nome"
                     variant="standard"
                     {...register("primeiroNome")}
-                    name="nameCUp"
-                    onChange={handleChangeValue}                    
+                    name="name"
+                    onChange={handleChangeValue}
                   />
                 </div>
 
@@ -228,7 +252,7 @@ function App() {
                     variant="standard"
                     name="UltimoNomeUp"
                     {...register("ultimoNome")}
-                    onChange={handleChangeValue}                    
+                    onChange={handleChangeValue}
                   />
                 </div>
 
@@ -242,22 +266,17 @@ function App() {
                     onChange={handleChangeValue}
                   />
                 </div>
-             
-                
-                  <Stack spacing={3} direction="row">
-                    <Button
-                      variant="contained"
-                      className="buttonEnviar"
-                      onClick={updateUser}
-                      
-                    >
-                      Enviar
-                    </Button>
-                  </Stack>
-                
 
-                 </form>
-            
+                <Stack spacing={3} direction="row">
+                  <Button
+                    variant="contained"
+                    className="buttonEnviar"
+                    onClick={updateUser}
+                  >
+                    Enviar
+                  </Button>
+                </Stack>
+              </form>
             </Typography>
           </Box>
         </Modal>
@@ -273,9 +292,12 @@ function App() {
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Cadastro
             </Typography>
-            <Typography component={'span'} id="modal-modal-description" sx={{ mt: 2 }}>
-              
-                <form className="centro">
+            <Typography
+              component={"span"}
+              id="modal-modal-description"
+              sx={{ mt: 2 }}
+            >
+              <form className="centro">
                 <div className="dadosInput">
                   <TextField
                     id="nomeC"
@@ -314,15 +336,13 @@ function App() {
                     <Button
                       variant="contained"
                       className="buttonEnviar"
-                      onClick={() => handleClickButton()}
+                      onClick={addUser}
                     >
                       Enviar
                     </Button>
                   </Stack>
                 </div>
-
-               </form>
-
+              </form>
             </Typography>
           </Box>
         </Modal>
