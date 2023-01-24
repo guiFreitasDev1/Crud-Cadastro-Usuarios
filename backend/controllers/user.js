@@ -47,6 +47,7 @@ export const updateUser = (req, res) => {
 };
 
 export const deleteUser = (req, res) =>{
+    console.log('delete', req.body)
     const q = "DELETE FROM usuarios WHERE `id` = ?"
 
     db.query(q, [req.params.id], (err) =>{

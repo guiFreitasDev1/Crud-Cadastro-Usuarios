@@ -15,10 +15,11 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+
 //import { set } from "date-fns";
 //import api from "../backend/services/api";
 
-// style
+// style LISTA
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,16 +35,36 @@ function App() {
   // limpar os inputs, até o momento nao está limpando o do CPF
   const { register, getValues, reset } = useForm();
 
-  // pegando valor do input
+  //STATE USERS
+  const [users, setUsers] = useState([]);
+  console.log("USERS", users);
+
+  //STATE USERS UPDATE
+  const [usersUp, setUsersUp] = useState([]);
+  console.log("USERSPUP", usersUp);
+  
+  // VALORES DOS INPUTS
   const [value, setValue] = useState();
 
   // Modal Mui
   const [openMod, setOpen] = useState(false);
   const [openModUp, setOpenUp] = useState(false);
 
-  const handleOpen = () => setOpen(true);
 
   //fechar modal e reset modal up / cadastro
+  const handleOpen = () => setOpen(true);  
+  
+  const handleClose = () => {
+    setOpen(false);
+    
+    reset((formValues) => ({
+      ...formValues,
+      idade: null,
+      primeiroNome: null,
+      ultimoNome: null,
+    }));
+  };
+  
   const handleCloseUp = () => {
     setOpenUp(false);
 
@@ -54,18 +75,6 @@ function App() {
       ultimoNome: null,
     }));
   };
-
-  const handleClose = () => {
-    setOpen(false);
-
-    reset((formValues) => ({
-      ...formValues,
-      idade: null,
-      primeiroNome: null,
-      ultimoNome: null,
-    }));
-  };
-
   // Function pegando valor do input
   const handleChangeValue = (value) => {
     setValue((prevValue) => ({
@@ -74,8 +83,12 @@ function App() {
     }));
   };
 
-  // click button inserir
+  // RECARREGAR DATAGRID
+
+  
+  // ADICIONAR USUARIOS
   const addUser = async () => {
+    window. location. reload(false);
     console.log('teste' , value)
     await axios.post("http://localhost:8800", {
       primeiroNome: value.name,
@@ -94,17 +107,12 @@ function App() {
 
   };
 
-  const [users, setUsers] = useState([]);
-
-  console.log("USERS", users);
-
-  // editar
-  const [usersUp, setUsersUp] = useState([]);
-  console.log("USERSPUP", usersUp);
-
+// GET USERS
   const getUsers = async () => {
+    
     try {
       const res = await axios.get("http://localhost:8800");
+      console.log(res)
       setUsers(res.data);
     } catch (error) {
       toast.error(error);
@@ -115,8 +123,22 @@ function App() {
     getUsers();
   }, [setUsers]);
 
+  // DELETE USERS
+  const deleteUser = (id) => {
+    try {
+      window. location. reload(false);
+      console.log("USUARIO DELETADO id:", id);
+       axios.delete(`http://localhost:8800/${id}`);
+
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+ 
+  // update/Edit users
   const updateUser = async () => {
     try {
+      window. location. reload(false);
       console.log("ALOOO", getValues());
       const res = await axios.put("http://localhost:8800/users", {
         data: getValues(),
@@ -170,7 +192,7 @@ function App() {
         `${params.row.primeiroNome || ""} ${params.row.ultimoNome || ""}`,
     },
     {
-      field: "edit",
+      field: "Edit",
       renderCell: (params) => (
         <Button
           onClick={() => {
@@ -180,12 +202,26 @@ function App() {
           Edit
         </Button>
       ),
+    },  {
+      field: "Delete",
+      renderCell: (id) => (
+        <Button
+          onClick={() => {
+            deleteUser(id.id)
+          }}
+        >
+          Delete
+        </Button>
+      ),
     },
   ];
   // ANOTAÇÃO, CRIAR FUNÇÃO OPEN USER, ABRIR UM MODAL IGUAL DE CADASTRAR, PREENCHENDO OS VALORES Q ELA RECEBEU DE PARAMETRO
 
+
   return (
     <div className="container">
+      
+      {/**HEADER */}
       <div className="header">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="absolute">
@@ -199,6 +235,8 @@ function App() {
           </AppBar>
         </Box>
       </div>
+
+      {/** LISTA DE USUARIOS*/}
       <div style={{ height: 650, width: "100%" }} className="dataGrid">
         <DataGrid
           rows={
@@ -217,6 +255,8 @@ function App() {
           checkboxSelection
         />
       </div>
+
+      {/** MODAL UPDATE */}
       <div className="modalUp">
         <Modal
           open={openModUp}
@@ -240,7 +280,7 @@ function App() {
                     label="Primeiro Nome"
                     variant="standard"
                     {...register("primeiroNome")}
-                    name="name"
+                    name="primeiroNome"
                     onChange={handleChangeValue}
                   />
                 </div>
@@ -264,6 +304,7 @@ function App() {
                     name="IdadeUp"
                     {...register("idade")}
                     onChange={handleChangeValue}
+                    type={"number"}
                   />
                 </div>
 
@@ -281,6 +322,9 @@ function App() {
           </Box>
         </Modal>
       </div>
+
+
+    {/** MODAL CADASTRO DE USUARIOS */}
       <div className="modalCadastro">
         <Modal
           open={openMod}
@@ -328,6 +372,7 @@ function App() {
                     name="Idade"
                     {...register("idade")}
                     onChange={handleChangeValue}
+                    type={"number"}
                   />
                 </div>
 
